@@ -79,9 +79,9 @@ def get_details(url, country_name):
         price = html.select('.estimate strong')[0].get_text()
         price = price.replace('Estimate', '').strip()
         price = price.replace('£', '').strip()
-        stamp['price'] = price
+        stamp['price_est'] = price
     except:
-        stamp['price'] = None
+        stamp['price_est'] = None
 
     try:
         name = html.find_all("h1", {"class":"lot-title"})[0].find_next('p').get_text().strip()
