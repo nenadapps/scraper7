@@ -106,7 +106,7 @@ def get_page_items(url):
     return items, next_url, country_name
 
 def get_details(url, country_name):
-
+    
     stamp = {}
     
     try:
@@ -141,10 +141,18 @@ def get_details(url, country_name):
     # image_urls should be a list
     images = []
     try:
-        image_items = html.find_all('img', {'id': 'lot-image'})
+        if html.select('#lotGallery'):
+            image_items = html.select('#lotGallery li img')
+        else:    
+            image_items = html.select('#lot-image')
+            
         for image_item in image_items:
-            img = image_item.get('src').split('-medium.jpg')
-            img = 'https://www.sandafayre.com' + img[0] + '.jpg'
+            img_src = image_item.get('src')
+            if '-medium.jpg' in img_src:
+                img_parts = img_src.split('-medium.jpg')
+            else:
+                img_parts = img_src.split('-small.jpg')
+            img = 'https://www.sandafayre.com' + img_parts[0] + '.jpg'
             images.append(img)
     except:
         pass
